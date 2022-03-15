@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "chrome-extension-name",
+    "description": "chrome extension",
+    "version": "0.0.1",
+    "permissions": [
+        "tabs"
+    ],
+    "background": {
+        "service_worker": "/js/background.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>",
+                "*://*/*"
+            ],
+            "js": [
+                "/js/content.js"
+            ]
+        }
+    ],
+    "options_page": "options.html"
+}
