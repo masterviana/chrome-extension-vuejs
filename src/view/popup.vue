@@ -147,6 +147,7 @@ export default {
     return {
       isLogin : false,
       msg: 'popup',
+      hideAppHeader : false,
       currentUrl : 'https://web.whatsapp.com/',
       history : [
         'https://web.whatsapp.com/'

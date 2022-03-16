@@ -1,13 +1,16 @@
 {
     "manifest_version": 3,
-    "name": "chrome-extension-name",
-    "description": "chrome extension",
+    "name": "track-productivity",
+    "description": "Track productivity plugin for chrome",
     "version": "0.0.1",
     "permissions": [
-        "tabs"
+        "tabs",
+        "background",
+        "activeTab"
     ],
     "background": {
         "service_worker": "/js/background.js"
+
     },
     "action": {
         "default_popup": "popup.html"
@@ -24,4 +27,5 @@
         }
     ],
     "options_page": "options.html"
+
 }

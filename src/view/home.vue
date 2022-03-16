@@ -19,6 +19,7 @@
 
 
      <br> <br>
+     <v-btn @click="addDatabase">ok</v-btn>
      <a href="www.google.com" target="_blank"> go to dashboard </a>
     
   </div>
@@ -29,6 +30,25 @@
 
 // import extension from 'extensionizer';
 // import Login from '../view/login'
+import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDp2kyMSd15Ki5iGnBh2FfYUgtX6TOUJsM",
+  authDomain: "fitelit-staging.firebaseapp.com",
+  databaseURL: "https://fitelit-staging.firebaseio.com",
+  projectId: "fitelit-staging",
+  storageBucket: "fitelit-staging.appspot.com",
+  messagingSenderId: "936101374665",
+  appId: "1:936101374665:web:abdd69e0e0e8272fc2bb18"
+};
+
+import { getDatabase, ref, set } from "firebase/database";
+
 
 chrome.tabs.onActivated.addListener( function(activeInfo){
     chrome.tabs.get(activeInfo.tabId, function(tab){
@@ -43,6 +63,11 @@ chrome.tabs.onUpdated.addListener((tabId, change, tab) => {
     }
 });
 
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    console.log('******** Tab onActivated event :  + ******* ' );
+    console.log(activeInfo.tabId);
+});
+
 export default {
    components: {
     // login : Login
@@ -54,6 +79,32 @@ export default {
    
   },
   methods : {
+    addDatabase: async function()
+    {
+        const app = initializeApp(firebaseConfig);
+        console.log('****** addDatabase *******')
+
+        const db = getDatabase(app);
+        const userId = 1;
+        const name = 'vitor';
+        const imageUrl = 'adeus';
+
+      try{
+        await set(ref(db, 'users/' + userId), {
+          id : userId,
+          username: name,
+          email: name,
+          profile_picture : imageUrl,
+          createAt : new Date().getTime()
+        });
+
+        console.log('get from db ' );
+      }catch(ex){
+        console.log('Error calling firebase ', ex);
+      }
+
+       
+    },
     addUrl : async function(url){
         this.history.push(url);
     },
