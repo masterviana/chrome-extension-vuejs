@@ -48,25 +48,9 @@ const firebaseConfig = {
 };
 
 import { getDatabase, ref, set } from "firebase/database";
+import {mapActions, mapGetters} from 'vuex'
 
 
-chrome.tabs.onActivated.addListener( function(activeInfo){
-    chrome.tabs.get(activeInfo.tabId, function(tab){
-        var y = tab.url;
-        console.log("you are here: "+y);
-    });
-});
-
-chrome.tabs.onUpdated.addListener((tabId, change, tab) => {
-    if (tab.active && change.url) {
-        console.log("you are here: "+change.url);           
-    }
-});
-
-chrome.tabs.onActivated.addListener(function(activeInfo) {
-    console.log('******** Tab onActivated event :  + ******* ' );
-    console.log(activeInfo.tabId);
-});
 
 export default {
    components: {
@@ -75,10 +59,23 @@ export default {
   name: 'homeView',
   mounted (){
     console.log('home mounted ');
+
+    if(localStorage.getItem('userinfo'))
+    {
+       let userinfo = JSON.parse( localStorage.getItem('userinfo') );
+       console.log('logged user ', userinfo);
+       this.setUsername({username : userinfo.username, password: userinfo.password})
+    }
+    else{
+       this.$router.push('/login') 
+
+    }
    
    
   },
   methods : {
+    ...mapActions('user', ['setUsername']),
+    ...mapGetters('user', ['fullName', 'hasLogged']),
     addDatabase: async function()
     {
         const app = initializeApp(firebaseConfig);

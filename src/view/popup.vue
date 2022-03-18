@@ -23,10 +23,12 @@
         />
       </div> -->
       <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
+        <v-icon @click="usernameClick">mdi-account</v-icon>
       </v-btn>
-      <div>@vviana</div>
-
+      <div > 
+         <a > {{ fullName }} </a> 
+      </div>
+      
 
     </v-app-bar>
 
@@ -68,51 +70,39 @@
 // import extension from 'extensionizer';
 // import Login from '../view/login'
 
-chrome.tabs.onActivated.addListener( function(activeInfo){
-    chrome.tabs.get(activeInfo.tabId, function(tab){
-        var y = tab.url;
-        console.log("you are here: "+y);
-    });
-});
 
-chrome.tabs.onUpdated.addListener((tabId, change, tab) => {
-    if (tab.active && change.url) {
-        console.log("you are here: "+change.url);           
-    }
-});
-
-const getActiveUrl = (tabid, changeInfo, tab) => 
-{
-  const url = changeInfo.url;
-
-  console.log('tab : ', tab);
-
-  // url is likely to be empty, and filter chrome:// and about:// URLs
-  if (!url || ['chrome://', 'about://'].some(p => url.startsWith(p))) return;
-
-  // filtering is not an active tab
-  //if (!tab.active) return;
-
-  // the url address you need
-  console.log('url ', url);
-  this.addUrl(url);
-}
-
-chrome.tabs.onUpdated.addListener(getActiveUrl);
-
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
    components: {
     // login : Login
   },
   name: 'popupView',
+  computed : {
+    ...mapGetters('user', ['fullName', 'isLogged']),
+    ...mapActions('user', ['setUsername']),
+  },
   mounted (){
-    console.log('popup mounted ');
-    this.$router.push('login') 
-   
+    console.log('**** mounted popup *******');
+
+    if(localStorage.getItem('userinfo'))
+    {
+      this.$router.push('/')  
+    }
+    else{
+       this.$router.push('login') 
+    }
+
   },
   methods : {
-    addUrl : async function(url){
+    usernameClick: async function()
+    {
+      console.log('username click')
+      this.$router.push('/login') 
+
+    },
+    addUrl : async function(url)
+    {
         this.history.push(url);
     },
     callFunc : async function()

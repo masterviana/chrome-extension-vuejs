@@ -7,19 +7,19 @@ import extension from 'extensionizer';
 console.log('hello world background todo something~')
 
 
-async function getTabs(){
+// async function getTabs(){
 
-  console.log('*** get tabs *** ');
-  // let queryOptions = { active: false, currentWindow: false };
-  let a = await chrome.tabs.query({})
-  console.log('Tabs : ', a );
+//   console.log('*** get tabs *** ');
+//   // let queryOptions = { active: false, currentWindow: false };
+//   let a = await chrome.tabs.query({})
+//   console.log('Tabs : ', a );
 
-}
+// }
 
-setInterval(async function(){
-  console.log('interval on background');
-  getTabs();
-}, 5500)
+// setInterval(async function(){
+//   console.log('interval on background');
+//   getTabs();
+// }, 5500)
 
 const getActiveUrl = (tabid, changeInfo, tab) => 
 {
